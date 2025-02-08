@@ -1,7 +1,13 @@
+
+
 import { Geist, Geist_Mono } from "next/font/google";
 import "./styles/globals.css";
 // import styles from "./styles/layout.module.css";
 import Link from "next/link";
+import { UserProvider } from '@auth0/nextjs-auth0/client';
+
+
+
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -19,25 +25,29 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+    
     return (
         <html lang="en">
-            <body>
-                <header>
-                    <nav>
-                        <div>
-                            <Link href="/">
-                                <img src="/disc.png"></img>
-                            </Link>
-                            <Link href="/">Home</Link>
-                            <Link href="/about">About</Link>
-                        </div>
-                        <div>
-                            <Link href="/login">Login</Link>
-                        </div>
-                    </nav>
-                </header>
-                {children}
-            </body>
+            <UserProvider>
+                <body>
+                    <header>
+                        <nav>
+                            <div>
+                                <Link href="/">
+                                    <img src="/disc.png"></img>
+                                </Link>
+                                <Link href="/">Home</Link>
+                                <Link href="/about">About</Link>
+                            </div>
+                            <div>
+                                <Link href="/login">Login</Link>
+                            </div>
+                        </nav>
+                    </header>
+                    {children}
+                </body>
+            </UserProvider>
+
         </html>
     );
 }
