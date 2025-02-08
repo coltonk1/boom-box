@@ -35,31 +35,48 @@ const ScrollingContainer = ({ data }) => {
         fetchDocuments();
     }, []);
 
-    useEffect(() => {
-        scrollerRef.current.style.transition = "transform 10s linear";
-        scrollerRef.current.style.transform = "translate(-300px)";
-        const interval = setInterval(() => {
-            setDocuments((prevItems) => {
-                const updatedItems = [...prevItems];
-                updatedItems.push(updatedItems.shift());
-                scrollerRef.current.style.transition = "";
-                scrollerRef.current.style.transform = "translate(0px)";
-                console.log(updatedItems);
-                setTimeout(() => {
-                    scrollerRef.current.style.transition = "transform 10s linear";
-                    scrollerRef.current.style.transform = "translate(-300px)";
-                }, 50);
+    // useEffect(() => {
+    //     const TIME = 5;
 
-                return updatedItems;
-            });
-        }, 10000);
-        return () => clearInterval(interval);
-    }, [documents]);
+    //     // Ensure the ref is available before doing anything with it
+    //     if (!scrollerRef.current) return;
+
+    //     // Set the initial transition and transform
+    //     scrollerRef.current.style.transition = `transform ${TIME}s linear`;
+    //     scrollerRef.current.style.transform = "translateX(-300px)"; // Use translateX instead of translate
+
+    //     const interval = setInterval(() => {
+    //         // Only update state and manipulate the DOM if scrollerRef is available
+    //         if (scrollerRef.current) {
+    //             setDocuments((prevItems) => {
+    //                 const updatedItems = [...prevItems];
+    //                 updatedItems.push(updatedItems.shift()); // Shift items and push them back to create a looping effect
+
+    //                 // Reset transition and immediately change the position
+    //                 scrollerRef.current.style.transition = ""; // Remove transition to avoid interfering with the next transition
+    //                 scrollerRef.current.style.transform = "translateX(0px)"; // Reset position
+
+    //                 // After a small timeout, apply the transition again
+    //                 setTimeout(() => {
+    //                     if (scrollerRef.current) {
+    //                         scrollerRef.current.style.transition = `transform ${TIME}s linear`;
+    //                         scrollerRef.current.style.transform = "translateX(-300px)"; // Slide again
+    //                     }
+    //                 }, 50); // Small timeout to prevent immediate reset of transition
+
+    //                 return updatedItems;
+    //             });
+    //         }
+    //     }, TIME * 1000); // Make sure the interval is consistent with the transition time
+
+    //     // Cleanup the interval when the component unmounts
+    //     return () => clearInterval(interval);
+    // }, []); // Run effect once on mount, no dependencies
 
     return (
         <div className={styles.scroll_container}>
             <div className={styles.scrolling_items} ref={scrollerRef}>
-                {documents.slice(0, 10).map((item, index) => (
+                {documents.slice(0, 6).map((item, index) => (
                     <div key={index} className={styles.scroll_item}>
                         <Post key={index} index={index} ipfsHash={item.ipfsHash} spotifyLink={item.songData.spotifyUrl} />
                     </div>

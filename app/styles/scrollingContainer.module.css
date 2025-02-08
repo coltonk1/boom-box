@@ -6,6 +6,7 @@
     margin: 0 auto;
     border-left: 2px solid grey;
     border-right: 2px solid grey;
+    overflow-x: scroll;
 }
 
 .scrolling_items {
