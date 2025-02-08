@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { MongoClient } from "mongodb";
+
 const MONGODB_URI = process.env.MONGODB_URI;
 const DB_NAME = "BoomBox";
 const COLLECTION_NAME = "uploads";

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { searchSongByArtist } from "./spotify"; // Import your existing searchSongByArtist function
-import { getAccessToken } from "./spotify"; // Import your existing getAccessToken function
+import { searchSongByArtist } from "../upload/spotify"; // Import your existing searchSongByArtist function
+import { getAccessToken } from "../upload/spotify"; // Import your existing getAccessToken function
 import { GoogleGenerativeAI } from "@google/generative-ai"; // Import Google Generative AI client
 
 async function generatePlaylist(query, token) {
@@ -15,16 +15,15 @@ async function generatePlaylist(query, token) {
         });
 
         const prompt =
-            "Based on the following query, generate a list of songs that would fit the described emotion or mood. Provide a list of songs with the format 'Artist - Song Name'. You must return multiple songs if appropriate. Only include artist name and song name.";
+            "Based on the following query, generate a list of songs that would fit the described emotion or mood. Provide a list of songs with the format 'Artist-Song Name|Artist-Song Name|...'. You must return multiple songs if appropriate. Only include artist name and song name. Do not respond besides for that format.";
 
         const result = await model.generateContent([`${prompt}: ${query}`]);
 
         const response = await result.response;
-        const rawSongs = response.text().split("\n"); // Split the response into lines assuming each song is on a new line
-
+        const rawSongs = response.text().split("|"); // Split the response into lines assuming each song is on a new line
         // Process each song into artist and song title
         for (let song of rawSongs) {
-            const [artist, songTitle] = song.split(" - ");
+            const [artist, songTitle] = song.split("-");
             if (artist && songTitle) {
                 const spotifyData = await searchSongByArtist(songTitle, artist, token);
                 if (spotifyData.spotifyUrl) {
