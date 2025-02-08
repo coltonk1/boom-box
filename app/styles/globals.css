@@ -13,7 +13,7 @@
 html,
 body {
     max-width: 100vw;
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
 }
 
 body {
@@ -42,13 +42,14 @@ a {
 }
 
 header {
-    background: linear-gradient(to top, #f34747, #f34747a0);
-    backdrop-filter: blur(5px);
+    background: linear-gradient(to bottom, #f34747a0 40%, #f34747);
+    backdrop-filter: blur(7px);
     height: 70px;
     box-shadow: 0 0 10px #863232;
     position: sticky;
     top: 0;
     z-index: 20;
+    border-bottom: 2px solid #863232;
 }
 
 header > nav {
@@ -88,4 +89,69 @@ header > nav > div > a > img {
     width: 100%;
     height: 100%;
     object-fit: contain;
+}
+
+.center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.center > *,
+.topcenter > * {
+    text-align: center;
+}
+
+.center > p {
+    text-align: justify;
+    opacity: 0.9;
+}
+
+.topgap {
+    margin-top: 20px;
+}
+
+.cta {
+    border: 2px dashed blue;
+    width: fit-content;
+    padding: 7px 20px;
+    border-radius: 5px;
+    margin-right: 0;
+    margin-left: auto;
+}
+
+h1 {
+    font-size: 2.5em;
+}
+h1,
+p {
+    color: var(--foreground);
+}
+
+section {
+    position: relative;
+}
+
+.topcenter {
+    margin: 0 auto;
+    margin-top: 50px;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+ol > li {
+    text-align: left;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+ol > li > p {
+    font-weight: 500;
 }
