@@ -2,6 +2,7 @@
 import { useState } from "react";
 
 import styles from "@/app/styles/upload.module.css";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 export default function ImageUpload() {
     const [file, setFile] = useState(null);
@@ -18,11 +19,18 @@ export default function ImageUpload() {
         reader.readAsDataURL(selectedFile);
     };
 
+    let user = useUser().user;
+
     const handleUpload = async () => {
         if (!file) return alert("Please select a file first!");
 
         const formData = new FormData();
         formData.append("file", file);
+        if (!user) {
+            return;
+        }
+
+        formData.append("user", user.sub);
 
         try {
             const res = await fetch("/api/upload", {

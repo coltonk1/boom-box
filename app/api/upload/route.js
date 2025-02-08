@@ -54,7 +54,7 @@ async function getSongRecommendations(imageBuffer, mimeType) {
         });
 
         const prompt =
-            "Analyze the image and suggest a fitting English song, matching its tone and energy: for serene or peaceful images (nature, sunsets), recommend a mellow indie/folk song; for energetic images (parties, cityscapes), suggest an upbeat pop/electronic song; for emotional/introspective images (portraits, rainy days), choose a slower, emotional indie/alternative song; for vibrant/colorful scenes (celebrations, festivals), pick an upbeat, joyful song. Also classify the images by the mood they give off. Use basic moods that can easily be put into categories. The moods are based on the image provided, not the song. Format response as [song_name | artist_name | mood | description]. Do not say anything besides the format I requested. Ensure that the artist is the one that made the song in the response. Recommend a list of 3 just in case.";
+            "Analyze the image and suggest a fitting English song, matching its tone and energy: for serene or peaceful images (nature, sunsets), recommend a mellow indie/folk song; for energetic images (parties, cityscapes), suggest an upbeat pop/electronic song; for emotional/introspective images (portraits, rainy days), choose a slower, emotional indie/alternative song; for vibrant/colorful scenes (celebrations, festivals), pick an upbeat, joyful song. Also classify the images by the mood they give off. Use basic / extremely simple moods that can easily be put into categories. The moods are based on the image provided, not the song. Format response as [song_name | artist_name | mood | description]. Do not say anything besides the format I requested. Ensure that the artist is the one that made the song in the response. Recommend a list of 3 just in case.";
 
         const imagePart = await fileToGenerativePart(imageBuffer, mimeType);
 
@@ -81,7 +81,7 @@ async function getSongRecommendations(imageBuffer, mimeType) {
 }
 
 // Save data to MongoDB
-async function saveToMongo(uuid, ipfsHash, songData, mood, description) {
+async function saveToMongo(uuid, ipfsHash, songData, mood, description, userSub) {
     let client;
     try {
         client = new MongoClient(MONGODB_URI);
@@ -96,6 +96,7 @@ async function saveToMongo(uuid, ipfsHash, songData, mood, description) {
             mood,
             description,
             createdAt: new Date(),
+            userSub,
         });
     } catch (error) {
         console.error("Error saving to MongoDB:", error);
@@ -112,6 +113,7 @@ export async function POST(req) {
     try {
         const formData = await req.formData();
         const file = formData.get("file");
+        const userSub = formData.get("user");
 
         if (!file) {
             return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
@@ -139,7 +141,7 @@ export async function POST(req) {
         }
 
         const uuid = uuidv4();
-        await saveToMongo(uuid, ipfsHash, song, mood, description);
+        await saveToMongo(uuid, ipfsHash, song, mood, description, userSub);
 
         return NextResponse.json({
             success: true,

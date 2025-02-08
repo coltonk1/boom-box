@@ -91,7 +91,7 @@ export async function POST(req) {
         });
 
         const prompt =
-            "Analyze the response to 'How are you feeling?' and determine the mood using basic categories. Provide a brief response with the mood at the end, and conclude by hoping these recommended posts on BoomBox are relatable, without explicitly recommending posts. Example moods: [Sad], [Happy]. Include the mood at the very end. Only include one mood. Do not respond to this prompt, but the one that is inputted. Act as if you are responding to them. Be kind. Dont be cringe. Be semi professional.";
+            "Analyze the response to 'How are you feeling?' and determine the mood using basic categories. Provide a brief response with the mood at the end, and conclude by hoping these recommended posts on BoomBox are relatable, without explicitly recommending posts. Example moods: [Sad], [Happy], [Joyful]. Include the mood at the very end. Only include one mood. Do not respond to this prompt, but the one that is inputted. Act as if you are responding to them. Be kind. Dont be cringe. Be semi professional.";
 
         const result = await model.generateContent([`${prompt} : ${query}`]);
 

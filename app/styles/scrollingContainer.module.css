@@ -1,9 +1,8 @@
 /* styles/scrollingContainer.css */
 .scroll_container {
-    width: 100%;
     overflow: hidden;
     position: relative;
-    width: 500px;
+    width: 900px;
     margin: 0 auto;
     border-left: 2px solid grey;
     border-right: 2px solid grey;
@@ -13,11 +12,12 @@
     display: flex;
     position: relative;
     width: fit-content;
+    align-items: center;
 }
 
 .scroll_item {
     position: relative;
-    width: 100px;
+    width: 300px;
     padding: 10px;
     box-sizing: border-box;
     text-align: center;

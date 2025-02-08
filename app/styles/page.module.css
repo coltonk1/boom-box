@@ -34,7 +34,8 @@
 }
 
 .section2 {
-    height: 500px;
+    height: fit-content;
+    padding-bottom: 20px;
     border-top: 2px solid grey;
     border-bottom: 2px solid grey;
     background-color: #f0f0f0;

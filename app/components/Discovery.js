@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import styles from "@/app/styles/discovery.module.css";
+import Post from "./Post";
 
 export default function ImageGrid() {
     // State to store the user input, API response, and loading status
@@ -50,20 +51,15 @@ export default function ImageGrid() {
             <div
                 style={{
                     display: "grid",
-                    gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+                    gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
                     gap: "10px",
+                    rowGap: "30px",
                 }}
             >
                 {response &&
                     response.data &&
                     response.data.map((info, index) => (
-                        <div key={index}>
-                            <img
-                                src={"https://gateway.pinata.cloud/ipfs/" + info.ipfsHash}
-                                alt={`Image ${index + 1}`}
-                                style={{ width: "100%", borderRadius: "8px" }}
-                            />
-                        </div>
+                        <Post key={index} index={index} ipfsHash={info.ipfsHash} spotifyLink={info.songData.spotifyUrl} />
                     ))}
                 {/* {images.map((image, index) => (
                     <div key={index}>
