@@ -42,7 +42,7 @@ a {
 }
 
 header {
-    background: linear-gradient(to bottom, #f34747a0 40%, #f34747);
+    background: linear-gradient(to bottom, #f00505a0, #f34747 70%);
     backdrop-filter: blur(7px);
     height: 70px;
     box-shadow: 0 0 10px #863232;
@@ -56,15 +56,15 @@ header > nav {
     display: flex;
     justify-content: space-between;
     height: inherit;
-    padding: 10px 40px;
+    padding: 7px 40px;
     width: 100%;
 }
 
 header > nav > div {
     display: flex;
     align-items: center;
-    gap: 10px;
     flex-grow: 1;
+    gap: 5px;
 }
 
 header > nav > div:last-child {
@@ -74,15 +74,32 @@ header > nav > div:last-child {
 header > nav > div > a {
     display: block;
     height: 100%;
-    padding: 5px;
+    padding: 7px 15px;
+    border-radius: 5px;
+}
+
+header > nav > div > a:has(img):hover {
+    animation: rotate 1s ease-in-out;
+}
+
+@keyframes rotate {
+    0% {
+        rotate: 0;
+    }
+    100% {
+        rotate: 360deg;
+    }
 }
 
 header > nav > div > a:not(:has(img)) {
     height: fit-content;
+    transition: 0.2s;
+    font-weight: 600;
 }
 
 header > nav > div > a:not(:has(img)):hover {
-    background: blue;
+    background: #fff5;
+    color: white;
 }
 
 header > nav > div > a > img {
@@ -117,12 +134,20 @@ header > nav > div > a > img {
 }
 
 .cta {
-    border: 2px dashed blue;
+    border: 2px dashed #5401ad;
+    color: #5401ad;
+    background: #fff5;
     width: fit-content;
     padding: 7px 20px;
     border-radius: 5px;
     margin-right: 0;
     margin-left: auto;
+    transition: 0.2s;
+}
+
+.cta:hover {
+    background: white;
+    border: 2px dashed #555;
 }
 
 h1 {
@@ -154,4 +179,8 @@ ol > li {
 
 ol > li > p {
     font-weight: 500;
+}
+
+.login_button {
+    border: 2px dashed #f0f0f0;
 }

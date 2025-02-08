@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import styles from "@/app/styles/discovery.module.css";
 
 export default function ImageGrid() {
     // State to store the user input, API response, and loading status
@@ -36,14 +37,16 @@ export default function ImageGrid() {
     };
 
     return (
-        <div>
-            <h1>How are you?</h1>
+        <div className={styles.main}>
             <form onSubmit={handleSubmit}>
                 <input type="text" value={input} onChange={handleInputChange} placeholder="Enter your mood" required />
             </form>
-            {response && response.message && <div>{response.message.responseWithoutMood}</div>}
+            {response && response.message && <div className={styles.response}>{response.message.responseWithoutMood}</div>}
+            <div className={styles.options}>
+                <button>Posts</button>
+                <button>Personalized Playlist</button>
+            </div>
 
-            <h2>Image Grid</h2>
             <div
                 style={{
                     display: "grid",

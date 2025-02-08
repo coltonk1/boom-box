@@ -1,6 +1,8 @@
 "use client";
 import { useState } from "react";
 
+import styles from "@/app/styles/upload.module.css";
+
 export default function ImageUpload() {
     const [file, setFile] = useState(null);
     const [preview, setPreview] = useState(null);
@@ -42,7 +44,10 @@ export default function ImageUpload() {
 
     return (
         <div>
-            <input type="file" accept="image/*" onChange={handleFileChange} />
+            <div className={styles.upload_button}>
+                <img src="https://static-00.iconduck.com/assets.00/upload-icon-2048x2048-eu9n5hco.png"></img>
+                <input type="file" accept="image/*" onChange={handleFileChange} />
+            </div>
             {preview && <img src={preview} alt="Preview" width={100} />}
             <button onClick={handleUpload}>Upload</button>
             {uploadMessage && <p>{uploadMessage}</p>}

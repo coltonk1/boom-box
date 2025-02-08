@@ -29,10 +29,14 @@ export default function RootLayout({ children }) {
                                 <img src="/disc.png"></img>
                             </Link>
                             <Link href="/">Home</Link>
+                            <Link href="/discovery">Discovery</Link>
                             <Link href="/about">About</Link>
                         </div>
                         <div>
-                            <Link href="/login">Login</Link>
+                            <Link href="/upload">Upload</Link>
+                            <Link href="/login" className="login_button">
+                                Login
+                            </Link>
                         </div>
                     </nav>
                 </header>

@@ -52,7 +52,7 @@ async function getDocumentsByMood(mood) {
         const documents = await collection
             .find({ mood: mood }) // Filter by mood
             .sort({ createdAt: -1 }) // Sort by createdAt field in descending order (most recent)
-            .limit(1) // Limit the result to 10 documents
+            .limit(20) // Limit the result to 10 documents
             .toArray();
 
         // Return the documents

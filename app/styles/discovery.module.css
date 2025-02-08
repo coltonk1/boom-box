@@ -1,0 +1,51 @@
+.main {
+    margin: 0 auto;
+    width: 1200px;
+}
+
+.main > form {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.main > form > input {
+    width: 100%;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    background: white;
+    outline: none;
+    border: none;
+    color: #000;
+    font-size: 1.3em;
+    border-radius: 30px;
+    box-shadow: 5px 5px 10px #0002;
+}
+
+.response {
+    background: white;
+    padding: 10px;
+    padding-top: 30px;
+    margin-top: -20px;
+    border-radius: 10px;
+    color: #000a;
+}
+
+.options {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.options > button {
+    padding: 7px 10px;
+    border-radius: 10px;
+    border: none;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.options > button:hover {
+    background: #333;
+}
