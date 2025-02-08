@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { MongoClient } from "mongodb";
-import { v4 as uuidv4 } from "uuid";
-import { getAccessToken, searchSongByArtist } from "./spotify";
+
 const MONGODB_URI = process.env.MONGODB_URI;
 const DB_NAME = "BoomBox";
 const COLLECTION_NAME = "uploads";
