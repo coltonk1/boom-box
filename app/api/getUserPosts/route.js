@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
 import { MongoClient } from "mongodb";
-import { v4 as uuidv4 } from "uuid";
-import { getAccessToken, searchSongByArtist } from "./spotify";
 const MONGODB_URI = process.env.MONGODB_URI;
 const DB_NAME = "BoomBox";
 const COLLECTION_NAME = "uploads";
@@ -12,9 +10,11 @@ async function getPostsFromUser(userSub) {
         await client.connect();
         const db = client.db(DB_NAME);
         const collection = db.collection(COLLECTION_NAME);
-
+        const string = decodeURIComponent(userSub)
         // Query to find posts by GroupName
-        const query = { userSub: userSub };
+        const query = { userSub: string };
+        
+        console.log({query});
 
         // Retrieve posts from the collection
         const posts = await collection.find(query).toArray();
@@ -37,7 +37,7 @@ export async function POST(req) {
     const userSub = data.userSub;
 
     try {
-        const result = getPostsFromUser(userSub);
+        const result = await getPostsFromUser(userSub);
         if (!result) {
             return NextResponse.json(
                 {

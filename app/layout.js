@@ -28,6 +28,11 @@ function Navbar() {
                         Login
                     </Link>
                 )}
+
+                {user && (
+                    <Link href={"/profile/" + user.sub}><img src="/free-user-icon-3296-thumb.png" alt="Logo" /></Link>
+
+                )}
             </div>
         </nav>
     );
