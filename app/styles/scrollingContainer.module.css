@@ -1,0 +1,32 @@
+/* styles/scrollingContainer.css */
+.scroll_container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    width: 500px;
+    margin: 0 auto;
+    border-left: 2px solid grey;
+    border-right: 2px solid grey;
+}
+
+.scrolling_items {
+    display: flex;
+    position: relative;
+    width: fit-content;
+}
+
+.scroll_item {
+    position: relative;
+    width: 100px;
+    padding: 10px;
+    box-sizing: border-box;
+    text-align: center;
+    display: block;
+}
+
+.scroll_item .content {
+    padding: 10px;
+    background-color: #f3f3f3;
+    border-radius: 8px;
+    height: 100%;
+}
