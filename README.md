@@ -65,9 +65,6 @@ React (Frontend)
 Creates an interactive UI for the app
 
 
-
-
-
 🔹 How We Use These Tools in Our Project
 📌 1. Pinata (IPFS Storage)
 Used to store uploaded images permanently on IPFS.
