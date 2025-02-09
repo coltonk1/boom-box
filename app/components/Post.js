@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0/client";
-
+import { useRef } from "react";
 function convertSpotifyLinkToEmbed(spotifyLink) {
     // Extract the track ID from the Spotify URL
     const regex = /(?:spotify\.com\/(?:track|album|playlist)\/)([\w\d]+)/;
@@ -17,11 +17,13 @@ function convertSpotifyLinkToEmbed(spotifyLink) {
 }
 
 export default function Post(data) {
+    const postMenuRef = useRef(null);
     const user = useUser().user;
     const { index, ipfsHash, spotifyLink, uuid } = data;
     const comments_main = data.comments;
     const allowRemove = data.allowRemove || false;
     const reverseFunc = data.reverseFunc || null;
+    const openInput = data.openInput || null;
     const [comments, setComments] = useState(comments_main || []);
     const [inputVal, setInputVal] = useState("");
 
@@ -49,33 +51,52 @@ export default function Post(data) {
         const element = document.querySelector(`[key='${index}']`);
         console.log(element);
     };
+
     return (
         <div key={index} className="postContainer" style={{ marginBottom: "30px" }}>
             {allowRemove ? (
                 <div
                     className="trashCan"
-                    onClick={async () => {
-                        try {
-                            const res = await fetch(`/api/removePost`, {
-                                method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({ uuid }),
-                            });
-                            if (res.ok) {
-                                reverseFunc();
-                            } else {
-                                // Handle failure (optional)
-                                console.error("Failed to remove post.");
-                            }
-                        } catch (error) {
-                            console.error("Error:", error);
-                        }
+                    onClick={(e) => {
+                        postMenuRef.current.style.display = "block";
+                        postMenuRef.current.addEventListener("mouseleave", () => {
+                            postMenuRef.current.style.display = "none";
+                        });
                     }}
                 >
-                    <img
-                        src="https://uxwing.com/wp-content/themes/uxwing/download/user-interface/red-trash-can-icon.png"
-                        alt="Remove Post"
-                    />
+                    <img src="/dots.png" />
+                    <div className="post_menu" ref={postMenuRef} style={{ display: "none" }}>
+                        <button
+                            onClick={async () => {
+                                openInput(uuid);
+                            }}
+                        >
+                            <p>Add to Group</p>
+                            <img src="https://cdn-icons-png.flaticon.com/512/681/681494.png"></img>
+                        </button>
+                        <button
+                            onClick={async () => {
+                                try {
+                                    const res = await fetch(`/api/removePost`, {
+                                        method: "POST",
+                                        headers: { "Content-Type": "application/json" },
+                                        body: JSON.stringify({ uuid }),
+                                    });
+                                    if (res.ok) {
+                                        reverseFunc();
+                                    } else {
+                                        // Handle failure (optional)
+                                        console.error("Failed to remove post.");
+                                    }
+                                } catch (error) {
+                                    console.error("Error:", error);
+                                }
+                            }}
+                        >
+                            <p>Delete</p>
+                            <img src="https://uxwing.com/wp-content/themes/uxwing/download/user-interface/red-trash-can-icon.png"></img>
+                        </button>
+                    </div>
                 </div>
             ) : null}
             <img

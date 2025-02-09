@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import styles from "../../styles/profile.module.css";
 import Post from "../../components/Post";
+import { useRef } from "react";
 
 export default function Profile() {
     const { user, error, isLoading } = useUser();
@@ -11,6 +12,10 @@ export default function Profile() {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [nickname, setNickname] = useState("Loading...");
+    const moveInputRef = useRef(null);
+
+    const [currentUUID, setCurrentUUID] = useState(null);
+    const [currentGroupName, setCurrentGroupName] = useState("");
 
     useEffect(() => {
         const getUserNickname = async () => {
@@ -41,7 +46,7 @@ export default function Profile() {
             } catch (error) {
                 console.error("Error fetching posts:", error);
             } finally {
-                setLoading(false); // Stop loading
+                // setLoading(false); // Stop loading
             }
         };
 
@@ -52,6 +57,46 @@ export default function Profile() {
         console.log(posts.length);
         return (
             <>
+                <div ref={moveInputRef} className="move_container" style={{ display: "none" }}>
+                    <p>Note that a picture can only be included in 1 group.</p>
+                    <input
+                        onChange={(e) => {
+                            setCurrentGroupName(e.target.value);
+                        }}
+                        id="move_input"
+                        placeholder="What is the name of the group?"
+                    ></input>
+                    <button
+                        id="move_input_submit"
+                        onClick={async () => {
+                            setLoading(true);
+                            try {
+                                const res = await fetch(`/api/setToGroup`, {
+                                    method: "POST",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify({
+                                        uuid: currentUUID,
+                                        groupName: currentGroupName,
+                                        userSub: user.sub,
+                                        email: user.email,
+                                        name: user.nickname,
+                                    }),
+                                });
+                                if (res.ok) {
+                                } else {
+                                    // Handle failure (optional)
+                                    console.error("Failed to remove post.");
+                                }
+                                setLoading(false);
+                                moveInputRef.current.style.display = "none";
+                            } catch (error) {
+                                console.error("Error:", error);
+                            }
+                        }}
+                    >
+                        Confirm
+                    </button>
+                </div>
                 <div className={styles.profile_container}>
                     <div>
                         <img src="/free-user-icon-3296-thumb.png" className={styles.profile_picture} alt="Profile" />
@@ -92,6 +137,10 @@ export default function Profile() {
                                           const updatedPosts = [...posts];
                                           updatedPosts.splice(index, 1);
                                           setPosts(updatedPosts);
+                                      }}
+                                      openInput={(uuid) => {
+                                          setCurrentUUID(uuid);
+                                          moveInputRef.current.style.display = "block";
                                       }}
                                   />
                               ))}

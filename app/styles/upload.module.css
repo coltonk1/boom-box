@@ -74,34 +74,34 @@
 
 @keyframes rainbow {
     0% {
-        color: red;
+        color: #101015;
     }
     14% {
-        color: orange;
+        color: #202030;
     }
     28% {
-        color: yellow;
+        color: #303035;
     }
     42% {
-        color: green;
+        color: #101015;
     }
     57% {
-        color: blue;
+        color: #303035;
     }
     71% {
-        color: indigo;
+        color: #101015;
     }
     85% {
-        color: violet;
+        color: #303035;
     }
     100% {
-        color: red;
+        color: #101015;
     }
 }
 
 .upload_container p {
     font-size: 36px;
     font-weight: bold;
-    text-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc, 0 0 20px #00ffcc;
+    /* text-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc, 0 0 20px #00ffcc; */
     animation: rainbow 3s linear infinite;
 }

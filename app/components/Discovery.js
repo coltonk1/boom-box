@@ -172,10 +172,10 @@ export default function ImageGrid() {
 
                 <div
                     style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-                        gap: "10px",
-                        rowGap: "30px",
+                        display: "block",
+                        columns: 4,
+                        columnGap: "20px",
+                        margin: "0 auto",
                     }}
                 >
                     {response &&

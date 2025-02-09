@@ -14,7 +14,7 @@ async function getUserJoinedGroups(userSub) {
         const usersCollection = db.collection(USERS_COLLECTION);
 
         // Find the user by userSub
-        const user = await usersCollection.findOne({ userSub });
+        const user = await usersCollection.findOne({ sub: userSub });
 
         if (!user) {
             return null; // User not found

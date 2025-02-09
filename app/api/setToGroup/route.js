@@ -6,107 +6,109 @@ const DB_NAME = "BoomBox";
 const COLLECTION_NAME = "uploads";
 const USERS_COLLECTION = "users";
 
+// Create a cached connection to reuse
+let cachedClient = null;
+
+async function getMongoClient() {
+    if (cachedClient) {
+        return cachedClient;
+    }
+
+    const client = new MongoClient(MONGODB_URI);
+    await client.connect();
+    cachedClient = client;
+    return client;
+}
+
 async function setGroup(uuidToFind, groupName) {
-    let client;
+    if (!uuidToFind || !groupName) {
+        throw new Error("Missing required parameters: uuid or groupName");
+    }
+
+    const client = await getMongoClient();
     try {
-        client = new MongoClient(MONGODB_URI);
-        await client.connect();
         const db = client.db(DB_NAME);
         const collection = db.collection(COLLECTION_NAME);
 
         const updateOperation = {
-            $set: { GroupName: groupName },
+            $set: { groupName: groupName, isClosed: true },
         };
 
-        const result = await collection.updateOne(
-            { uuidField: uuidToFind }, // Filter to find document by UUID
-            updateOperation // The update operation
-        );
+        const result = await collection.updateOne({ uuid: uuidToFind }, updateOperation);
 
-        console.log(`Matched ${result.matchedCount} document(s)`);
-        console.log(`Modified ${result.modifiedCount} document(s)`);
+        if (result.matchedCount === 0) {
+            throw new Error(`No document found with uuid: ${uuidToFind}`);
+        }
+
         return result.modifiedCount;
     } catch (error) {
         console.error("Error updating MongoDB:", error);
-        throw new Error("Failed to save to database");
-    } finally {
-        if (client) {
-            await client.close();
-        }
+        throw error; // Propagate the error with original message
     }
 }
 
 async function updateUserJoinedGroups(userSub, email, name, groupName) {
-    let client;
+    if (!userSub || !groupName) {
+        throw new Error("Missing required parameters: userSub or groupName");
+    }
+
+    const client = await getMongoClient();
     try {
-        client = new MongoClient(MONGODB_URI);
-        await client.connect();
         const db = client.db(DB_NAME);
         const usersCollection = db.collection(USERS_COLLECTION);
 
-        // Check if user already exists
-        const user = await usersCollection.findOne({ userSub });
+        const user = await usersCollection.findOne({ sub: userSub });
 
         if (!user) {
-            // User doesn't exist, create new user with joinedGroups
-            await usersCollection.insertOne({
-                userSub,
-                email,
-                name,
+            const newUser = {
+                sub: userSub,
+                email: email || null,
+                nickname: name || null,
                 joinedGroups: [groupName],
-            });
+                createdAt: new Date(),
+            };
 
+            await usersCollection.insertOne(newUser);
             return { success: true, message: "User created and group added" };
         }
 
-        if (user.joinedGroups && user.joinedGroups.includes(groupName)) {
-            return { success: true, message: "Group already in joinedGroups" };
-        }
-
-        // Add the group to joinedGroups if not already there
+        // Update existing user
         const updateOperation = {
             $addToSet: { joinedGroups: groupName },
+            $setOnInsert: {
+                email: email || user.email,
+                nickname: name || user.nickname,
+            },
         };
 
-        await usersCollection.updateOne({ userSub }, updateOperation);
+        await usersCollection.updateOne({ sub: userSub }, updateOperation, { upsert: true });
+
         return { success: true, message: "Group added to joinedGroups" };
     } catch (error) {
         console.error("Error updating user joinedGroups:", error);
-        return { success: false, error: "Failed to update user joinedGroups" };
-    } finally {
-        if (client) {
-            await client.close();
-        }
+        throw error; // Propagate the error with original message
     }
 }
 
-// Main API route handler
 export async function POST(req) {
-    const data = await req.json();
-    const { uuid, groupName, userSub, email, name } = data;
-
     try {
-        const groupUpdateResult = await setGroup(uuid, groupName);
-        if (groupUpdateResult == 0) {
+        const data = await req.json();
+        const { uuid, groupName, userSub, email, name } = data;
+
+        // Validate required fields
+        if (!uuid || !groupName || !userSub) {
             return NextResponse.json(
                 {
                     success: false,
-                    error: "Nothing updated",
+                    error: "Missing required fields: uuid, groupName, or userSub",
                 },
-                { status: 500 }
+                { status: 400 }
             );
         }
 
-        const userUpdateResult = await updateUserJoinedGroups(userSub, email, name, groupName);
-        if (!userUpdateResult.success) {
-            return NextResponse.json(
-                {
-                    success: false,
-                    error: userUpdateResult.error,
-                },
-                { status: 500 }
-            );
-        }
+        // Execute operations
+        await setGroup(uuid, groupName);
+        await updateUserJoinedGroups(userSub, email, name, groupName);
 
         return NextResponse.json({
             success: true,
@@ -114,13 +116,17 @@ export async function POST(req) {
         });
     } catch (error) {
         console.error("API Error:", error);
+
+        // Return appropriate error message based on the error type
+        const errorMessage = error.message || "Server error occurred";
+        const statusCode = error.message.includes("No document found") ? 404 : 500;
+
         return NextResponse.json(
             {
                 success: false,
-                error: "Server error occurred",
-                message: error.message,
+                error: errorMessage,
             },
-            { status: 500 }
+            { status: statusCode }
         );
     }
 }

@@ -8,8 +8,10 @@ export default function ImageUpload() {
     const [file, setFile] = useState(null);
     const [preview, setPreview] = useState(null);
     const [uploadMessage, setUploadMessage] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const handleFileChange = (e) => {
+        setUploadMessage("");
         const selectedFile = e.target.files[0];
         setFile(selectedFile);
 
@@ -22,6 +24,7 @@ export default function ImageUpload() {
     let user = useUser().user;
 
     const handleUpload = async () => {
+        setLoading(true);
         if (!file) return alert("Please select a file first!");
 
         const formData = new FormData();
@@ -40,11 +43,14 @@ export default function ImageUpload() {
 
             const data = (await res.json()).data;
             if (res.ok) {
+                setLoading(false);
                 setUploadMessage(`Uploaded successfully! UUID: ${data.uuid}, View: ${data.ipfsUrl}, Song: ${data.song.songTitle}`);
             } else {
+                setLoading(false);
                 setUploadMessage(`Error: ${data.error}`);
             }
         } catch (error) {
+            setLoading(false);
             console.log(error);
             setUploadMessage("Upload failed.");
         }
@@ -70,10 +76,11 @@ export default function ImageUpload() {
                 )}
             </div>
             <button onClick={handleUpload}>Upload</button>
+            {loading && <p>Loading...</p>}
             {uploadMessage && (
                 <>
                     <p>Upload Successful ✅</p>
-                    <p>View in your profiles</p>
+                    <p>View in your profile</p>
                 </>
             )}
         </div>

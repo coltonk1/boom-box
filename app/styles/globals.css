@@ -346,3 +346,166 @@ ol > li > p {
     opacity: 1;
     pointer-events: all;
 }
+
+.post_menu {
+    width: fit-content;
+    height: fit-content;
+    background: linear-gradient(to top left, #f0f0f0de, #f0f0f0ff);
+    box-shadow: 5px 5px 10px #0005;
+    position: absolute;
+    right: -100%;
+    top: 50%;
+    transform: translate(0, -50%);
+    padding: 20px;
+    cursor: auto;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+}
+
+.post_menu > button {
+    background: #f0f0f0;
+    border: 2px solid black;
+    height: 50px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    cursor: pointer;
+    pointer-events: all;
+    z-index: 5;
+
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 150px;
+}
+
+.post_menu > button > img {
+    width: 20px;
+    height: fit-content;
+    object-fit: contain;
+    display: block;
+}
+
+.move_container {
+    background: #fffa;
+    backdrop-filter: blur(5px);
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 50;
+    flex-direction: column;
+}
+.move_container > button {
+    width: 100%;
+    max-width: 250px;
+    height: 50px;
+    background: #f0f0f0;
+    border-radius: 15px 15px 5px 15px;
+    box-shadow: 5px 5px 10px #4022, inset 5px 5px 10px #4021;
+    border: none;
+    /* position: absolute; */
+    display: block;
+    margin: auto;
+    margin-top: 50px;
+    cursor: pointer;
+    color: #222;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-top: 2px dashed #222;
+    border-left: 2px dashed #222;
+    transition: 0.2s;
+    filter: brightness(1);
+}
+
+.move_container > button:hover {
+    filter: brightness(2);
+}
+.move_container > input {
+    width: 50%;
+    margin: 0 auto;
+    display: block;
+    padding: 10px 15px;
+    color: black;
+    outline: none;
+    background: #e0e0e0;
+    border: none;
+    border-radius: 5px 15px 15px 15px;
+    box-shadow: 5px 5px 10px #4022, inset 5px 5px 10px #4021;
+    font-size: 1rem;
+    border-bottom: 2px dashed #222;
+    border-right: 2px dashed #222;
+}
+.move_container > p {
+    width: 50%;
+    margin: 0 auto;
+    display: block;
+    font-size: 0.8rem;
+    color: black;
+    opacity: 0.5;
+    margin-bottom: 5px;
+    text-align: center;
+    margin-top: 100px;
+}
+
+.groupItemContainer {
+    width: 80%;
+    /* background: blue; */
+    display: flex;
+    margin: 0 auto;
+    margin-top: 20px;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.groupItemContainer > * {
+    padding: 50px;
+    background: #101015;
+    font-weight: bold;
+    border-radius: 15px;
+    color: #cdcdcd;
+    box-shadow: 5px 5px 10px 2px #000;
+    transition: 0.2s;
+}
+
+.groupItemContainer > *:hover {
+    background: #f12d2d;
+}
+
+.mainGroupContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: baseline;
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(to bottom, #888, #888), linear-gradient(to right, #888, #000);
+    background-repeat: repeat, repeat;
+    background-size: calc(100vw / 30), calc(100vw / 30);
+    background-color: #f0f0f0;
+    background-blend-mode: overlay;
+    min-height: 100vh;
+    font-family: "Arial", sans-serif;
+}
+
+.mainGroupContainer2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: baseline;
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(to bottom right, #fff, #9a9a9a);
+    min-height: 100vh;
+    font-family: "Arial", sans-serif;
+}
+
+.upload_bg_container {
+    height: calc(100vh - 120px);
+    background: linear-gradient(to bottom, #f0f0f0, #d6d6d6);
+    margin-top: 0;
+}

@@ -17,8 +17,8 @@ export default function Home() {
                 <div className="center">
                     <h1>Share Photos, Get the Perfect Song</h1>
                     <p>Upload a photo, and let BoomBox automatically match it with a song that fits the vibe.</p>
-                    <Link href="/" className="topgap cta right">
-                        Get Started
+                    <Link href="/discovery" className="topgap cta right">
+                        Discover More
                     </Link>
                 </div>
 
@@ -49,8 +49,8 @@ export default function Home() {
                             </li>
                         </ol>
                     </div>
-                    <Link href="/" className="topgap cta right">
-                        Get Started
+                    <Link href="/discovery" className="topgap cta right">
+                        Discover More
                     </Link>
                 </div>
             </section>
