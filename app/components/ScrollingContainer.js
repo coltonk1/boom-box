@@ -78,7 +78,14 @@ const ScrollingContainer = ({ data }) => {
             <div className={styles.scrolling_items} ref={scrollerRef}>
                 {documents.slice(0, 6).map((item, index) => (
                     <div key={index} className={styles.scroll_item}>
-                        <Post key={index} index={index} ipfsHash={item.ipfsHash} spotifyLink={item.songData.spotifyUrl} />
+                        <Post
+                            key={index}
+                            index={index}
+                            ipfsHash={item.ipfsHash}
+                            spotifyLink={item.songData.spotifyUrl}
+                            uuid={item.uuid}
+                            comments={item.comments}
+                        />
                     </div>
                 ))}
             </div>

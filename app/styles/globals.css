@@ -208,10 +208,10 @@ ol > li > p {
     height: 100vh;
     width: 100vw;
     background: #fff2;
-    backdrop-filter: blur(2px);
+    backdrop-filter: blur(5px);
     z-index: 50;
 }
-
+/* 
 .fullPost > div {
     position: fixed;
     left: 50%;
@@ -225,7 +225,7 @@ ol > li > p {
     display: flex;
     flex-direction: column;
     gap: 10px;
-}
+} */
 
 .fullPost > div * {
     width: fit-content;
@@ -256,4 +256,59 @@ ol > li > p {
     display: inline-block;
     border: none;
     border-radius: 0 10px 10px 0;
+}
+/* 
+.mainDisplay {
+    padding: 0 !important;
+    background: transparent !important;
+    margin-left: 0 !important;
+}
+
+.mainDisplay * {
+    padding: 0 !important;
+    background: transparent !important;
+    margin-left: 0 !important;
+    margin-right: auto !important;
+    position: relative !important;
+    left: 0;
+    right: auto; */
+/* } */
+
+.fullPost {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+
+.allComments {
+    width: fit-content;
+    background: linear-gradient(to bottom right, #f0f0f0, #f0f0f0e0);
+    padding: 20px;
+    height: calc(100vh - 30px);
+    border-radius: 5px 5px 30px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.allComments > div:first-child {
+    width: 100%;
+    overflow-y: scroll;
+    max-height: calc(100vh - 100px);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.allComments .username {
+    color: #acacac;
+    font-size: 0.8rem;
+}
+
+.mainDisplay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
 }

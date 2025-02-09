@@ -26,7 +26,7 @@ async function addComment(uuidToFind, username, description) {
         };
 
         const result = await collection.updateOne(
-            { uuidField: uuidToFind }, // Filter to find document by UUID
+            { uuid: uuidToFind }, // Filter to find document by UUID
             updateOperation // The update operation to add the comment
         );
 

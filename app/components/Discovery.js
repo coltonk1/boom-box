@@ -111,6 +111,8 @@ export default function ImageGrid() {
                     }}
                 >
                     {response &&
+                        response.length &&
+                        response.length != 0 &&
                         response.map((info, index) => (
                             <iframe
                                 key={index}
@@ -179,7 +181,14 @@ export default function ImageGrid() {
                     {response &&
                         response.data &&
                         response.data.map((info, index) => (
-                            <Post key={index} index={index} ipfsHash={info.ipfsHash} spotifyLink={info.songData.spotifyUrl} />
+                            <Post
+                                key={index}
+                                index={index}
+                                ipfsHash={info.ipfsHash}
+                                spotifyLink={info.songData.spotifyUrl}
+                                comments={info.comments}
+                                uuid={info.uuid}
+                            />
                         ))}
                     {/* {images.map((image, index) => (
                     <div key={index}>

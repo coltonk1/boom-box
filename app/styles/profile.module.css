@@ -1,4 +1,5 @@
 /* Profile Container */
+
 .profile_container {
     display: flex;
     flex-direction: column;
@@ -6,25 +7,36 @@
     justify-content: center;
     text-align: center;
     padding: 20px;
-    background-color: #f9f9f9;
+    background: linear-gradient(to bottom, white, #888), linear-gradient(to right, white, #ff7171);
+    background-repeat: repeat, repeat;
+    background-size: calc(100vw / 30), calc(100vw / 30);
+    background-color: #f0f0f0;
+    background-blend-mode: overlay;
     min-height: 100vh;
-    font-family: 'Arial', sans-serif;
+    font-family: "Arial", sans-serif;
 }
 
 /* Profile Picture */
-.profile_container img {
+.profile_container .profile_picture {
     width: 120px;
     height: 120px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid #4a90e2;
-    padding: 5px;
     background-color: white;
     transition: transform 0.3s ease-in-out;
 }
 
-.profile_container img:hover {
-    transform: scale(1.1);
+.profile_container .profile_picture:hover {
+    animation: rotate 2s ease-in-out;
+}
+
+@keyframes rotate {
+    0% {
+        rotate: 0;
+    }
+    100% {
+        rotate: 360deg;
+    }
 }
 
 /* User Info */
@@ -45,36 +57,13 @@
 
 /* Stats Section */
 .stats {
-    background-color: white;
     border-radius: 10px;
     padding: 15px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);
     margin-top: 15px;
     width: 80%;
     max-width: 400px;
     text-align: left;
+    backdrop-filter: blur(2px);
+    margin-bottom: 20px;
 }
-
-/* Posts Section */
-.posts {
-    margin-top: 20px;
-    width: 90%;
-    max-width: 600px;
-    padding: 15px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    min-height: 200px;
-    text-align: left;
-}
-
-/* Posts Header */
-.posts::before {
-    content: "User Posts";
-    font-size: 16px;
-    font-weight: bold;
-    color: #444;
-    display: block;
-    margin-bottom: 10px;
-}
-
