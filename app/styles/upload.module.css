@@ -4,15 +4,15 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh; /* Full screen height */
+    height: fit-content; /* Full screen height */
     text-align: center;
-    
+    box-sizing: border-box;
+    margin-top: 20px;
 }
 
 /* Upload Button Box */
 .upload_button {
     display: flex;
-    margin-top: -300px;
     justify-content: center;
     align-items: center;
     width: 300px;
@@ -32,8 +32,8 @@
 .upload_button img {
     width: 60px;
     height: 60px;
-    opacity: 0.7;
     transition: opacity 0.3s ease-in-out;
+    pointer-events: none;
 }
 
 /* Hide Default File Input */
@@ -67,20 +67,36 @@
     cursor: pointer;
 }
 .upload_container button:hover {
-    background-color: #357ABD;
+    background-color: #357abd;
 }
 
 /* Upload Message */
 
 @keyframes rainbow {
-    0% { color: red; }
-    14% { color: orange; }
-    28% { color: yellow; }
-    42% { color: green; }
-    57% { color: blue; }
-    71% { color: indigo; }
-    85% { color: violet; }
-    100% { color: red; }
+    0% {
+        color: red;
+    }
+    14% {
+        color: orange;
+    }
+    28% {
+        color: yellow;
+    }
+    42% {
+        color: green;
+    }
+    57% {
+        color: blue;
+    }
+    71% {
+        color: indigo;
+    }
+    85% {
+        color: violet;
+    }
+    100% {
+        color: red;
+    }
 }
 
 .upload_container p {
@@ -89,4 +105,3 @@
     text-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc, 0 0 20px #00ffcc;
     animation: rainbow 3s linear infinite;
 }
-

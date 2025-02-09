@@ -53,7 +53,16 @@ export default function ImageUpload() {
     return (
         <div className={styles.upload_container}>
             <div className={styles.upload_button}>
-                {preview ? (<img src={preview} alt="Preview" style={{width: "100%", height: "100%", objectFit: "cover", objectPosition: "center"}}></img>):(
+                {preview ? (
+                    <>
+                        <input type="file" accept="image/*" onChange={handleFileChange} />
+                        <img
+                            src={preview}
+                            alt="Preview"
+                            style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }}
+                        ></img>
+                    </>
+                ) : (
                     <>
                         <img src="https://static-00.iconduck.com/assets.00/upload-icon-2048x2048-eu9n5hco.png"></img>
                         <input type="file" accept="image/*" onChange={handleFileChange} />
@@ -61,7 +70,12 @@ export default function ImageUpload() {
                 )}
             </div>
             <button onClick={handleUpload}>Upload</button>
-            {uploadMessage && <><p>Upload Successful ✅</p><p>View in your profiles</p></>}
+            {uploadMessage && (
+                <>
+                    <p>Upload Successful ✅</p>
+                    <p>View in your profiles</p>
+                </>
+            )}
         </div>
     );
 }
