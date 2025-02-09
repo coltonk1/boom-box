@@ -20,6 +20,8 @@ export default function Post(data) {
     const user = useUser().user;
     const { index, ipfsHash, spotifyLink, uuid } = data;
     const comments_main = data.comments;
+    const allowRemove = data.allowRemove || false;
+    const reverseFunc = data.reverseFunc || null;
     const [comments, setComments] = useState(comments_main || []);
     const [inputVal, setInputVal] = useState("");
 
@@ -49,6 +51,33 @@ export default function Post(data) {
     };
     return (
         <div key={index} className="postContainer" style={{ marginBottom: "30px" }}>
+            {allowRemove ? (
+                <div
+                    className="trashCan"
+                    onClick={async () => {
+                        try {
+                            const res = await fetch(`/api/removePost`, {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ uuid }),
+                            });
+                            if (res.ok) {
+                                reverseFunc();
+                            } else {
+                                // Handle failure (optional)
+                                console.error("Failed to remove post.");
+                            }
+                        } catch (error) {
+                            console.error("Error:", error);
+                        }
+                    }}
+                >
+                    <img
+                        src="https://uxwing.com/wp-content/themes/uxwing/download/user-interface/red-trash-can-icon.png"
+                        alt="Remove Post"
+                    />
+                </div>
+            ) : null}
             <img
                 src={"https://gateway.pinata.cloud/ipfs/" + ipfsHash}
                 alt={`Image ${index + 1}`}

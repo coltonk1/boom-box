@@ -10,8 +10,15 @@ export default function Profile() {
     const { userSub } = useParams();
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [nickname, setNickname] = useState("Loading...");
 
     useEffect(() => {
+        const getUserNickname = async () => {
+            const res = await fetch(`/api/getUser?sub=${userSub}`);
+            setNickname((await res.json()).nickname);
+        };
+        getUserNickname();
+
         if (!userSub) return; // Don't fetch if userSub is missing
 
         const fetchUserPosts = async () => {
@@ -49,7 +56,7 @@ export default function Profile() {
                     <div>
                         <img src="/free-user-icon-3296-thumb.png" className={styles.profile_picture} alt="Profile" />
                     </div>
-                    <p className={styles.user_info}>{user.nickname}</p>
+                    <p className={styles.user_info}>{nickname}</p>
                     <p className={styles.user_description}>
                         This is an example description. It can be used to describe what type of person you are or what youre into, basically
                         anything!
@@ -70,12 +77,24 @@ export default function Profile() {
                             margin: "0 auto",
                         }}
                     >
-                        {posts &&
-                            posts.length &&
-                            posts.length !== 0 &&
-                            posts.map((post, index) => (
-                                <Post key={index} ipfsHash={post.ipfsHash} spotifyLink={post.songData?.spotifyUrl} />
-                            ))}
+                        {posts && posts.length && posts.length !== 0 && userSub == user.sub
+                            ? posts.map((post, index) => (
+                                  <Post key={index} ipfsHash={post.ipfsHash} spotifyLink={post.songData?.spotifyUrl} />
+                              ))
+                            : posts.map((post, index) => (
+                                  <Post
+                                      key={index}
+                                      ipfsHash={post.ipfsHash}
+                                      spotifyLink={post.songData?.spotifyUrl}
+                                      allowRemove={true}
+                                      uuid={post.uuid}
+                                      reverseFunc={() => {
+                                          const updatedPosts = [...posts];
+                                          updatedPosts.splice(index, 1);
+                                          setPosts(updatedPosts);
+                                      }}
+                                  />
+                              ))}
                     </div>
                 </div>
             </>

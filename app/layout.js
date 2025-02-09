@@ -15,7 +15,6 @@ function Navbar() {
                 </Link>
                 <Link href="/">Home</Link>
                 <Link href="/discovery">Discovery</Link>
-                <Link href="/about">About</Link>
             </div>
             <div>
                 {user && <Link href="/upload">Upload</Link>}
@@ -24,14 +23,15 @@ function Navbar() {
                         Logout
                     </Link>
                 ) : (
-                    <Link href="/api/auth/login?prompt=login" className="login_button">
+                    <Link href="/api/auth/login?prompt=login&returnTo=https://your-redirect-url.com" className="login_button">
                         Login
                     </Link>
                 )}
 
                 {user && (
-                    <Link href={"/profile/" + user.sub}><img src="/free-user-icon-3296-thumb.png" alt="Logo" /></Link>
-
+                    <Link href={"/profile/" + user.sub}>
+                        <img src="/free-user-icon-3296-thumb.png" alt="Logo" />
+                    </Link>
                 )}
             </div>
         </nav>
