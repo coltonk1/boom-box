@@ -17,6 +17,7 @@ function Navbar() {
                 <Link href="/discovery">Discovery</Link>
             </div>
             <div>
+                {user && <Link href="/groups">My Groups</Link>}
                 {user && <Link href="/upload">Upload</Link>}
                 {user ? (
                     <Link href="/api/auth/logout" className="login_button">
