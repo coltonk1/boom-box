@@ -3,7 +3,7 @@ import { MongoClient } from "mongodb";
 import { v4 as uuidv4 } from "uuid";
 import { pinata } from "@/app/utils/config";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import Jimp from "jimp";
+import sharp from "sharp";
 import { getAccessToken, searchSongByArtist } from "./spotify";
 
 // Environment variables and constants
@@ -27,15 +27,11 @@ async function uploadToPinata(file) {
 // Process image with sharp
 async function processImage(file) {
     const buffer = await file.arrayBuffer();
-    const image = await Jimp.read(Buffer.from(buffer));
-
-    // Resize the image, maintaining aspect ratio
-    image.resize(800, Jimp.AUTO); // Resize to a width of 800px, height is auto-calculated
-
-    // Get the processed image as a buffer
-    const processedBuffer = await image.getBufferAsync(Jimp.MIME_JPEG); // or Jimp.MIME_PNG if the image is PNG
-
-    return processedBuffer;
+    return await sharp(Buffer.from(buffer))
+        .resize(800, null, {
+            withoutEnlargement: true,
+        })
+        .toBuffer();
 }
 
 // Helper function to convert buffer to base64
